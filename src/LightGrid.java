@@ -72,9 +72,7 @@ public class LightGrid extends JPanel {
   * Lights in the grid.
   *
   */
- public LightGrid(MouseListener listener)
- {
-  
+ public LightGrid(MouseListener listener) {
   /************************************************
    * Correctly assign the listener, set the size *
    * of the LightGrid, assign a GridLayout with *
@@ -83,14 +81,15 @@ public class LightGrid extends JPanel {
    * invoke the initialization of the individual *
    * lights.          *
    ************************************************/
-  
+  this.gameListener = listener;
+  this.initializeLights();
  }
  
  /**
   * Correctly instantiates a Light object for each spot
   * in the grid with a 50% chance for that light to start
-  * in the ON state. If a Light gets switced to ON, be
-  * sure to correctly incriment the light counter. Each
+  * in the ON state. If a Light gets switched to ON, be
+  * sure to correctly increment the light counter. Each
   * light needs to be instantiated, on/off state determined,
   * added to the grid in the proper location, assigned the
   * mouse listener passed from the top level JFrame, and 
@@ -103,15 +102,13 @@ public class LightGrid extends JPanel {
   * a container, you must add it straight to the container
   * itself. Once added, the layout specifications determine 
   * where exactly the component will be placed or if no layout
-  * exists (switced to null) then the set bounds method must
+  * exists (switched to null) then the set bounds method must
   * be invoked to determine where exactly the component should
   * go (we did this at the top level JFrame).
   *
   *
   */
- private void initializeLights()
- {
-  
+private void initializeLights() {
   /****************************************************
    * Correctly create a Light for each spot in the *
    * grid, toggle the light on with a 50% chance,  *
@@ -119,7 +116,18 @@ public class LightGrid extends JPanel {
    * each Light, and count the total number of Lights *
    * that are switched on        * 
    ****************************************************/
-   
+   this.grid = new Light[this.CELLS][this.CELLS];
+   for (int i = 0; i < this.grid.length; i++) {
+     for (int j = 0; j < this.grid[i].length; j++) {
+       this.grid[i][j] = new Light();
+       this.add(this.grid[i][j]);
+       this.grid[i][j].addMouseListener(this.gameListener);
+       if (Math.random() < .5) {
+         this.grid[i][j].toggle();
+         this.lightCounter++;
+       }
+     }
+   }
  }
  
  /**
@@ -139,16 +147,14 @@ public class LightGrid extends JPanel {
   * screen to update the changes, then for efficiency exit
   * the method before the loop finishes.
   *
-  * @param e MouseEvent that occured in the game passed
+  * @param e MouseEvent that occurred in the game passed
   *   from the top level JFrame class when it is
   *   determined the event was triggered by a left
   *   mouse click on one of the lights in the grid.
   *
   *
   */
- public void onLeftClick(MouseEvent e)
- {
-  
+ public void onLeftClick(MouseEvent e) {
   /********************************************
    * Correctly determine which Light was the *
    * source of the click, then correctly use *
@@ -156,11 +162,16 @@ public class LightGrid extends JPanel {
    * all adjacent lights. Then, invoke the *
    * repaint and exit the method early.  *
    ********************************************/
-  
+   //DO NOT OVERRIDE REPAINT -> IT WILL JACK/MESS WITH YOUR CODE
+//   for(every light on LightGrid/check column & row on 5x5 grid) {
+//     search for the light that was clicked;
+//     toggleAdjacentLights();
+//     repaint();
+//   }
  }
  
  /**
-  * Uses the specified corrdinates to correctly toggle
+  * Uses the specified coordinates to correctly toggle
   * the given light and each adjacent light. A Light is
   * adjacent to another if it is directly above/below
   * or to the side of the first Light. Diagonals are
@@ -174,16 +185,20 @@ public class LightGrid extends JPanel {
   *
   *
   */
- public void toggleAdjacentLights(int r, int c)
- {
-  
+ public void toggleAdjacentLights(int r, int c) {
   /********************************************
    * Correctly toggle the Light at the given *
    * location and all adjacent lights while *
    * also tracking the total number of lights *
    * that are on with the counter.   *
    ********************************************/
-  
+   //before toggling lights, check bounds/check if its within bounds
+	 //THE 1st  FOR-LOOP CHECKS/SEARCHES FOR THE LIGHT CLICKED( onLeftClick() )
+   //change state of tile touching the tile clicked
+   //if (tile clicked is out-of-bounds/(Out-Of-Bound Exception)) {
+     //change only the tiles within the bounds
+     //Light.toggle();
+   //}
  }
  
  /**
@@ -192,15 +207,13 @@ public class LightGrid extends JPanel {
   * a 50% chance and correctly updates the light counter.
   *
   */
- public void reset()
- {
-  
+ public void reset() {
   /********************************************************
    * Reset the counter and each Light in the grid with *
    * a 50% chance of being switched on, and keep track of *
    * total number switched on.       *
    ********************************************************/
-  
+  this.initializeLights();
  }
  
  /**
@@ -210,9 +223,8 @@ public class LightGrid extends JPanel {
   *   on inside the grid.
   *
   */
- public int getNumberOfLightsOn()
- {
-  return this.lightCounter;
+ public int getNumberOfLightsOn() {
+   return this.lightCounter;
  }
  
 }

@@ -73,7 +73,7 @@ public class ControlPanel extends JPanel {
  /**
   * Labels for each of the different parts of the control panel.
   * Note, the part that actually says "Clicks" and the number that
-  * is the total number of clicks are seperate JLabels. This makes
+  * is the total number of clicks are separate JLabels. This makes
   * things much easier to layout and adjust.
   */
  private JLabel clickLabel, clickCounter, lightLabel, lightCounter, statusLabel;
@@ -91,7 +91,7 @@ public class ControlPanel extends JPanel {
   * clicks and lights that remain on, as well as holding the reset
   * button and the label which displays the status of the game. If the
   * game is currently in progress, the bottom status label should read
-  * some generice message like "Good Luck!", once the player switches
+  * some generic message like "Good Luck!", once the player switches
   * off all of the lights this label should be responsible for displaying
   * a winning message.
   *
@@ -104,7 +104,7 @@ public class ControlPanel extends JPanel {
    * Correctly assign the specified listener to gameListener.  *
    * Set the size of the ControlPanel, set the opacity to false *
    * since we do not want an outline of the control panel to  *
-   * show up, and fially remove the layout so the set bounds  *
+   * show up, and finally remove the layout so the set bounds  *
    * applied below will take effect.        *
    *                *
    * IMPORTANT IDEA:            *
@@ -186,10 +186,11 @@ public class ControlPanel extends JPanel {
   * Reset control panel when reset button clicked
   */
  public void reset() {
-     this.clickCounter = new JLabel("0");
+     //this.clickCounter = new JLabel("0");
   /****************************************
    * Set the label counters back to zero *
    ****************************************/
+     this.clickCounter.setText("0");
  }
  
  /**

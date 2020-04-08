@@ -47,7 +47,7 @@ public class GameWindow extends JPanel {
  
  
  /** Background color of game window */
- public static final Color BACKGROUND =  BLACK;
+ public static final Color BACKGROUND =  Color.BLACK;
  
  
  /** LightGrid object for game which contains all of the Lights */
@@ -71,9 +71,7 @@ public class GameWindow extends JPanel {
   *    listener object will communicate with all different parts.
   *
   */
- public GameWindow(MouseListener listener)
- {
-  
+ public GameWindow(MouseListener listener) {
   /********************************************************************
    * Set up the listener, correctly set the size, set the background *
    * color and also set the opacity of the JPanel to true (meaning *
@@ -81,7 +79,13 @@ public class GameWindow extends JPanel {
    * invoke the method responsible for creating the components of  *
    * the GameWindow.             *
    ********************************************************************/
-   
+   this.gameListener = listener;
+   this.setSize(WIDTH, HEIGHT);
+   this.setBackground(BACKGROUND);
+   this.setOpaque(true);
+   this.setLayout(null);
+   this.initializeControlPanel();
+   this.initializeLightGrid();
  }
  
  
@@ -91,36 +95,34 @@ public class GameWindow extends JPanel {
   * the accessibility to private.
   * <p>
   * Although you may ask why we don't do this in the constructor, it is
-  * a useful organizational technique to seperate any multiple line 
-  * implementations into other methods. Therefor, if we wanted to create
+  * a useful organizational technique to separate any multiple line 
+  * implementations into other methods. Therefore, if we wanted to create
   * a more complex version of the Lights Out game we could add more details
   * to this method. Or, if there were multiple constructors for the class then
   * we would only need to write the implementation once here and each
   * constructor invokes this method themselves.
   * 
   */
- private void initializeLightGrid()
- {
-  
+ private void initializeLightGrid() {
   /************************************************************************
    * Instantiate a LightGrid, set the bounds of the light grid with the *
    * starting coordinates set to 1% of the width and 14% of the height *
    * of this GameWindow, and finally be sure to add the grid to the  *
    * GameWindow.               *
    ************************************************************************/
-  
+  this.grid = new LightGrid(gameListener);
+  this.grid.setLocation((int)(WIDTH * .01), ((int)(HEIGHT * .14)));
+  //this.add(grid);
  }
  
  /**
   * Responsible for implementing the panel that contains the stats
   * for the game as well as the button that resets the game. Again,
   * for the same reasons as listed in the above method we have
-  * seperated this task from the constructor.
+  * separated this task from the constructor.
   *
   */
- private void initializeControlPanel()
- {
-  
+ private void initializeControlPanel() {
   /****************************************************************
    * Instantiate a ControlPanel, set the bounds of the control *
    * panel with the starting coordinates set to 50 more than  *
@@ -130,31 +132,32 @@ public class GameWindow extends JPanel {
    * current number of lights that are on, and finally don't  *
    * forget to add the control panel to the GameWindow.   *
    ****************************************************************/
+  this.controlPanel = new ControlPanel(gameListener);
+  this.controlPanel.setBounds(WIDTH + 50, HEIGHT + 50, WIDTH, HEIGHT);
+  this.controlPanel.getLightCounter().setText("" + this.grid.getNumberOfLightsOn());
   
  }
- 
  
  /**
   * Used to pass left click event from main window down to
   * the light grid. Thus the sole purpose here is to act like
-  * the middle man, tranferring the event from the top level
+  * the middle man, transferring the event from the top level
   * class down to one or more of its parts.
   * 
   * @param e MouseEvent that was passed from the JFrame's 
   *   listener class.
   *
   */
- public void onLeftClick(MouseEvent e)
- {
-  
+ public void onLeftClick(MouseEvent e) {
   /************************************************************
-   * Correctly pass the MouseEvent that occured to the grid *
+   * Correctly pass the MouseEvent that occurred to the grid *
    * for processing, then update the control panel's light *
    * counter label to the new number of lights that are on, *
    * and update the click counter label since a click on the  *
-   * LightGrid was just determined to have occured.   *
+   * LightGrid was just determined to have occurred.   *
    ************************************************************/
-   
+   this.grid.onLeftClick(e);
+   //ControlPanel.getLightCounter();
  }
 
  /**
@@ -164,14 +167,12 @@ public class GameWindow extends JPanel {
   * was clicked.
   * 
   */
- public void reset()
- {
-  
+ public void reset() {
   /************************************************************
    * Reset the grid, reset the control panel, then update the *
    * control panel's light counter to be the new number of *
    * lights that are on in the grid.       *
    ************************************************************/
-  
+  grid.reset();
  } 
 }

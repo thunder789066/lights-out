@@ -40,7 +40,7 @@ import javax.swing.JFrame;
  * it has been created, we never recreate it again. A good programmer can
  * break up their problem into a set of problems that we already have solutions
  * for. What is left over that we haven't solved is usually much smaller and
- * easier to implementation a soluiton that works for us for the time being.
+ * easier to implementation a solution that works for us for the time being.
  * 
  */
 public class LightsOut extends JFrame {
